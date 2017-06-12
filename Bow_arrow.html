@@ -8,10 +8,10 @@
        /* background: url("https://i.stack.imgur.com/p9mUO.jpg");*/
        
         background: url("https://i.stack.imgur.com/p9mUO.jpg"); 
-        background: -webkit-linear-gradient(-90deg, #02245e, #001000); /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(-90deg, #02245e, #001000); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(-90deg, #02245e, #001000); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(-90deg, #02245e, #001000); /* Standard syntax */
+        background: -webkit-linear-gradient(-90deg, #02245e,#010101); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(-90deg, #02245e,#010101); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(-90deg, #02245e,#010101); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(-90deg, #02245e,#010101); /* Standard syntax */
 
       }
      /* #start{
@@ -94,7 +94,7 @@
 }
 
       #canvas{
-        padding-left: 120px;
+        padding-left: 300px;
         padding-top: 20px;
       }
       img{
@@ -103,10 +103,10 @@
       }
       #intro{
         padding: 50px 50px 50px 50px;
-        margin: 10px 100px 10px 10px;
+        margin: 10px 150px 10px 70px;
         border: 2px solid white;
         font-size: 20px;
-        font-style: 
+        color: #aeb0b2;
 
       }
       
@@ -120,6 +120,7 @@
           <button id = "start" class = "depth" type = "button">Start</button>
           <button id = "stop" class = "depth">Stop</button>
           <button id = "pause" class = "depth">Pause</button>
+          <button id = "easy" class = "depth">Hard</button>
    
   </div>
   
@@ -136,6 +137,8 @@
      <li>The 3 gives you three extra lives</li>
      <li>Don't forget to never harm animals!!</li>
      <li>Click start when you are ready ! </li>
+     <li>Click once to pause and double click to resume</li>
+     <li>If it's too easy for you try out the harder version!!</li>
 
     </ul>
     <img src="https://s-media-cache-ak0.pinimg.com/originals/1f/46/4b/1f464b9b75ee1cbb51d9595cfb377b8e.jpg">
@@ -186,11 +189,11 @@
     var obstruction_3 = new Image;
     var oppX = 250;
     var dyopp = -1;
-    var revX = 480;
+    var revX = 365;
     var revY = 150;
     var livesGame = "Number of lives left: " + gameCount;
-    //var punishment = new Image;
-    //punishment.src = "http://www.okoffroad.com/gifs/stuff/decal-ouch-1.jpg";
+    var punishment = new Image;
+    punishment.src = "http://eskipaper.com/images/starry-night-4.jpg";
     
     
     
@@ -228,21 +231,24 @@
 
           ctx.beginPath();
           ctx.lineWidth = 5;
-          ctx.strokeStyle = "#FF0000"
+          ctx.shadowBlur = 0
+          ctx.strokeStyle = "#FF0000";
           ctx.arc(480,y, ballRadius, 0, Math.PI*2);
           ctx.stroke();
           ctx.closePath();
   
           ctx.beginPath();
           ctx.lineWidth = 5;
-          ctx.strokeStyle = "#00FF00"
+          ctx.shadowBlur = 0
+          ctx.strokeStyle = "#00FF00";
           ctx.arc(480,y, ballRadius+25, 0, Math.PI*2);
           ctx.stroke();
           ctx.closePath();
 
           ctx.beginPath();
           ctx.lineWidth = 5;
-          ctx.strokeStyle = "#0000FF"
+          ctx.shadowBlur = 0
+          ctx.strokeStyle = "#0000FF";
           ctx.arc(480,y, ballRadius+50, 0, Math.PI*2);
           ctx.stroke();
           ctx.closePath();
@@ -324,7 +330,7 @@
       bowIncrement = -bowIncrement;
 
     }*/oppY+=dyopp;
-    if(oppY>canvas.height||oppY<0){
+    if(oppY>canvas.height-30||oppY<30){
      dyopp = -dyopp;
     }
 
@@ -382,16 +388,21 @@
         function drawBox(){
           ctx.strokeStyle = "#7a8089";
           ctx.font = "30px Arial";
+          ctx.shadowBlur=20;
+          ctx.shadowColor="white";
           ctx.strokeRect(0,0,600,600);
           ctx.stroke();
-        }
+
+
+       }
 
 
         function drawBow(){
 
          ctx.beginPath();
          ctx.font = "30px Arial";
-         ctx.strokeStyle = "#4f300e";
+         ctx.strokeStyle = "#704205";
+         ctx.shadowBlur = 0;
          ctx.moveTo(50,arrowY);
          ctx.lineTo(125,arrowY);
          ctx.stroke();
@@ -400,17 +411,21 @@
          ctx.beginPath();
          ctx.font = "30px Arial";
          ctx.strokeStyle = "#4f300e";
-         ctx.arc(50,arrowY, 75, -.5*Math.PI, -1.5*Math.PI);
+         ctx.shadowBlur = 0;
+         ctx.moveTo(50,arrowY-bowLength);
+         ctx.lineTo(50,arrowY+bowLength);
          ctx.stroke();
          ctx.closePath();  
 
          ctx.beginPath();
          ctx.font = "30px Arial";
          ctx.strokeStyle = "#4f300e";
-         ctx.moveTo(50,arrowY-bowLength);
-         ctx.lineTo(50,arrowY+bowLength);
+         ctx.shadowBlur = 0;
+         ctx.arc(50,arrowY, 75, -.5*Math.PI, -1.5*Math.PI);
          ctx.stroke();
          ctx.closePath();  
+
+
 
 
       }
@@ -419,6 +434,7 @@
         
            star.beginPath();
            star.drawImage(bullseyePic,450,y-50,150,150);
+           star.shadowBlur = 0;
            star.stroke(); 
            star.closePath();
         
@@ -430,6 +446,7 @@
 
            statObstruction.beginPath();
            statObstruction.drawImage(obstruction,obstructionX,obstructionY,70,50);//has the horse
+           statObstruction.shadowBlur = 0;
            statObstruction.stroke(); 
            statObstruction.closePath();
 
@@ -438,6 +455,7 @@
            
            statObstruction.beginPath();
            statObstruction.drawImage(obstruction_2,obstructionX,obstructionY,70,50);
+           statObstruction.shadowBlur = 0;
            statObstruction.stroke(); 
            statObstruction.closePath();
            obstructionX = 200;
@@ -450,7 +468,8 @@
            statObstruction.beginPath();
            //statObstruction.rect(oppX,oppY,70,60);
            //statObstruction.strokeStyle="#000000";
-           statObstruction.drawImage(obstruction_1,oppX,oppY,70,60)
+           statObstruction.drawImage(obstruction_1,oppX,oppY,70,60);
+           statObstruction.shadowBlur = 0;
            statObstruction.stroke(); 
            statObstruction.closePath();
            
@@ -458,6 +477,7 @@
            //statObstruction.strokeStyle="#000000";
            //statObstruction.rect(revX,revY,60,50);
            statObstruction.drawImage(obstruction_3,revX,revY,60,50);
+           statObstruction.shadowBlur = 0;
            statObstruction.stroke(); 
            statObstruction.closePath();
 
@@ -492,6 +512,7 @@
             gameCount += 2;
             //ctx.drawImage(punishment,400,300,100,100);
             ctx.fillText("You just killed an animal",300,200);
+            ctx.shadowBlur = 0;
             ctx.fill();
 
           }
@@ -534,7 +555,7 @@
          
 
         function gameOver(){
-          if(gameCount==gameLivesMin){
+          if(gameCount>=gameLivesMin){
           clearInterval(startGame);
           alert("gameOver!! You scored "+ gameScore + " points");
           }
@@ -545,7 +566,6 @@
       $("#stop").on("click",function(){
           clearInterval(startGame);
           clearInterval(shotArrow);
-          alert("You scored "+gameScore+ " points");
           gameSound.stop();
 
       });
@@ -553,6 +573,7 @@
       $("#start").on("click",function(){
         startGame = setInterval(movingTarget,20);
         gameSound.play();
+        $("body").css("background-image","url(http://www.twicecircled.com/resources/blog/2013/03/starmap/finished.png)");
         $("#intro").hide();
       
       
@@ -568,6 +589,11 @@
         startGame = setInterval(movingTarget,20);
         shotArrow = setInterval(shootArrow,1000);
         gameSound.play();
+      });
+      $("#easy").on("click",function(){
+        dyopp -= 3;
+        dy += 5;
+        gameCount += 3;
       });
      
 
