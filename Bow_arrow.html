@@ -14,9 +14,7 @@
         background: linear-gradient(-90deg, #02245e,#010101); /* Standard syntax */
 
       }
-     /* #start{
-        background-color: #00F000;
-      }*/
+
 
    button: {
     left: 50%;
@@ -167,7 +165,6 @@
     var arrowY = 250;
     var gameScore = 0;
     var status = 0;
-    //var gameLives = 7;
     var gameCount = 0;
     var startGame;
     var bowLength = 75;
@@ -200,7 +197,6 @@
     bullseyePic.src = "https://pbs.twimg.com/profile_images/598218580820299776/riyOfMzy.png";
     obstruction.src = "http://pre03.deviantart.net/536b/th/pre/i/2010/301/2/6/bullseye_by_himanuts-d31pc8v.png";
     obstruction_1.src = "http://www.clker.com/cliparts/b/m/0/m/n/D/brick-wall-jail.svg";
-    //obstruction_2.src = "http://img.clipartall.com/warrior-helmet-clipart-1-warrior-clipart-660_660.jpg";
     obstruction_2.src = "http://img09.deviantart.net/80c6/i/2011/312/b/d/ice_sword_by_thecarloszayas-d4fjb49.png";
     obstruction_3.src = "http://www.panel2panel.com/wp-content/uploads/2014/03/animal-number-three-md.png";
 
@@ -224,7 +220,7 @@
     
 
    
-
+    //to draw the target by creating 3 concentric circles with variable y coordinates
     function drawTarget(){
 
           ctx.beginPath();
@@ -255,27 +251,26 @@
      }  
     
         function movingTarget(){
-      	 ctx.clearRect(0,0,600,600);
+      	 ctx.clearRect(0,0,600,600);//clearing the canvas every frame
          A.clearRect(0,0,150,150);
-         drawTarget();
-         gameOver();
-         stationaryObjects();
-         drawOpposition();
-         //drawAim();
-         drawScoreBoard();
-         drawBow();
-         drawBox();
+         drawTarget();//to draw the targets
+         gameOver();//to check if the game lives are over
+         stationaryObjects();//to create stationary objects
+         drawOpposition();//to create obstacles
+         drawScoreBoard();//to draw score 
+         drawBow();//to draw the bow
+         drawBox();//to draw an overall box around the event space
         
          
-         y += dy;
-         if( y+dy > 460 || y+dy<75 ){
+         y += dy;//constantly move the target
+         if( y+dy > 460 || y+dy<75 ){//make sure the target does not move out of bounds
            dy = -dy;
           }
          document.addEventListener("keydown",keyDownHandler,false);
          document.addEventListener("keyup",keyUpHandler,false);
     
       function keyUpHandler(e){
-          if(e.keyCode== 32){
+          if(e.keyCode== 32){//32 for spaceBar
             spaceBarPressed = false;
              
           }
@@ -306,36 +301,30 @@
 
          }       
 
-    if(upPressed&&arrowY>100){
-      arrowY += -bowIncrement;
-      }
+        if(upPressed&&arrowY>100){
+            arrowY += -bowIncrement;
+         }
 
-    if(downPressed&&arrowY<460){
-      arrowY += bowIncrement;
-      }
+        if(downPressed&&arrowY<460){
+            arrowY += bowIncrement;
+         }
 
-    if(spaceBarPressed){  
-       
-      status = 0;  
+        if(spaceBarPressed){    
 
-         //  count++;
-      shotArrow = setInterval(shootArrow,1000);
-
-        // gameLives = gameLives-1;
+            shotArrow = setInterval(shootArrow,1000);
       
        }     
-    /*if(arrowY<100||arrowY>360){
-      bowIncrement = -bowIncrement;
+    
 
-    }*/oppY+=dyopp;
-    if(oppY>canvas.height-30||oppY<30){
-     dyopp = -dyopp;
-    }
+       oppY+=dyopp;
+       if(oppY>canvas.height-30||oppY<30){
+         dyopp = -dyopp;
+       }
 
         }
  
         function drawArrow(){
-          //targetHitting();
+
      	    ctx.beginPath();
           ctx.font = "30px Arial";
           ctx.strokeStyle = "#00FF00"
@@ -344,16 +333,15 @@
           ctx.stroke();
           ctx.closePath();
           if(arrowStart>=200){
-          oppositionColliosion();
+          oppositionColliosion();//to check for obstacle colliosion
         }
-         // leadingPointX = arrowStart+arrowLength;
           leadingPointY = arrowY;          
           if(arrowStart == 30 ){
-              gameCount++;
+              gameCount++;//incrementing the lives used
           }  
           if(arrowStart==480){
-            targetHitting();
-              //gameLives++;
+            targetHitting();//checking for colliosion between target and arrow
+              
           }
          
        }
@@ -361,7 +349,7 @@
 
        function shootArrow(){
        drawArrow();
-       arrowStart = arrowStart + arrowLength/2;
+       arrowStart = arrowStart + arrowLength/2;//drawing arrows with continuously incremented startpoints
        
       }
 
@@ -391,13 +379,12 @@
           ctx.strokeRect(0,0,600,600);
           ctx.stroke();
 
-
-       }
+      }
 
 
         function drawBow(){
 
-         ctx.beginPath();
+         ctx.beginPath();//draw the arrow part
          ctx.font = "30px Arial";
          ctx.strokeStyle = "#704205";
          ctx.shadowBlur = 0;
@@ -406,7 +393,7 @@
          ctx.stroke();
          ctx.closePath(); 
 
-         ctx.beginPath();
+         ctx.beginPath();//draws the bow stem
          ctx.font = "30px Arial";
          ctx.strokeStyle = "#4f300e";
          ctx.shadowBlur = 0;
@@ -415,7 +402,7 @@
          ctx.stroke();
          ctx.closePath();  
 
-         ctx.beginPath();
+         ctx.beginPath();//draws the arc
          ctx.font = "30px Arial";
          ctx.strokeStyle = "#4f300e";
          ctx.shadowBlur = 0;
@@ -430,7 +417,7 @@
 
         function bullsEye(){
         
-           star.beginPath();
+           star.beginPath();//function that generates an image when bullseye is hit !!
            star.drawImage(bullseyePic,450,y-50,150,150);
            star.shadowBlur = 0;
            star.stroke(); 
@@ -464,16 +451,12 @@
         function drawOpposition(){
 
            statObstruction.beginPath();
-           //statObstruction.rect(oppX,oppY,70,60);
-           //statObstruction.strokeStyle="#000000";
            statObstruction.drawImage(obstruction_1,oppX,oppY,70,60);
            statObstruction.shadowBlur = 0;
            statObstruction.stroke(); 
            statObstruction.closePath();
            
            statObstruction.beginPath();
-           //statObstruction.strokeStyle="#000000";
-           //statObstruction.rect(revX,revY,60,50);
            statObstruction.drawImage(obstruction_3,revX,revY,60,50);
            statObstruction.shadowBlur = 0;
            statObstruction.stroke(); 
@@ -485,20 +468,18 @@
          
 
 
-        function oppositionColliosion(){
+        function oppositionColliosion(){//checking for obstacle colliosion
           ctx.beginPath();
-          ctx.rect(oppX,oppY,70,60);
-       
+          ctx.rect(oppX,oppY,70,60);     
           if(ctx.isPointInPath(arrowStart,arrowY)){
-            //alert("oops");
+            
             gameScore -= 10;
         
           }
 
           ctx.beginPath();
           ctx.rect(revX,revY,60,50)
-          if(ctx.isPointInPath(arrowStart,arrowY)){
-           // alert("You have won 3 more lives!");  
+          if(ctx.isPointInPath(arrowStart,arrowY)){ 
             gameCount -= 3;
             spaceBarPressed = true;
 
@@ -508,7 +489,6 @@
           ctx.rect(obstructionX,obstructionY,70,50);
           if(ctx.isPointInPath(arrowStart,arrowY)){
             gameCount += 2;
-            //ctx.drawImage(punishment,400,300,100,100);
             ctx.fillText("You just killed an animal",300,200);
             ctx.shadowBlur = 0;
             ctx.fill();
@@ -516,20 +496,20 @@
           }
 
         
-              }
+      }
         
         
             
         function targetHitting() {
         
             
-             //for the outermost circle
+             
              if (  leadingPointY>y-75 && leadingPointY<y+75){
 
                if(leadingPointY>y-50 && leadingPointY<y+50){
                   
                   if(leadingPointY>y-25 && leadingPointY<y+25){
-                    gameScore  += circle_one;
+                    gameScore  += circle_one;//50 points for inner most circle
                     bullsEye();
           
                   }
@@ -591,9 +571,8 @@
       $("#easy").on("click",function(){
 
          window.location='Bow and arrow__2.html';
-
         
-              });
+      });
      
 
    </script>
