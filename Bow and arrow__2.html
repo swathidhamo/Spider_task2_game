@@ -1,6 +1,6 @@
 <html>
  <head>
-	<title>Arrow game-Harder version</title>
+  <title>Arrow game-Harder version</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <style type="text/css">
@@ -213,7 +213,7 @@
      }  
     
         function movingTarget(){
-      	 ctx.clearRect(0,0,600,500);
+         ctx.clearRect(0,0,600,500);
          A.clearRect(0,0,150,150);
          drawTarget();
          stationaryObjects();
@@ -247,12 +247,12 @@
           
       function keyDownHandler(e){
 
-    	    if(e.keyCode == 32){
-    		    spaceBarPressed = true;
+          if(e.keyCode == 32){
+            spaceBarPressed = true;
             count = 0;
             arrowStart = 30;
             arrowStartY = 150;
-    	     }
+           }
 
           if(e.keyCode==39){         //keyCode right arrow is 39
             rightPressed = true;
@@ -293,7 +293,7 @@
         function drawArrow(){
           arrowX = Math.round(arrowLength*Math.cos(arrowAngle));
           arrowYe = Math.round(arrowLength*Math.sin(arrowAngle));
-     	     ctx.beginPath();
+           ctx.beginPath();
            ctx.font = "30px Arial";
            ctx.moveTo(arrowStart,arrowStartY);
            ctx.lineTo(arrowX+arrowStart,arrowYe+arrowStartY);
@@ -482,8 +482,10 @@
        $("#stop").click(function(){
            clearInterval(startGame);
            clearInterval(shotArrow);
-           alert("You scored "+gameScore+ " points");
+          // alert("You scored "+gameScore+ " points");
            gameSound.stop();
+          gameScore = 0;
+          gameCount = 0;
         });
 
       $("#start").click(function(){
