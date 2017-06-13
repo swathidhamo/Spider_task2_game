@@ -26,7 +26,7 @@
       margin-left: 300px;
     }
 
-/* 3D Button */
+
 
    button.depth {
       background: #444;
@@ -47,16 +47,16 @@
                 0 0 2px 8px hsla(0,0%,0%,.5),
                 0 1px 2px 8px hsla(0,0%,100%,.25),
                 0 -1px 2px 8px hsla(0,0%,0%,.5);
-       vertical-align:          
-       color: #303030;
-       cursor: pointer;
-       font: bold 25px/65px sans-serif;
-       height: 80px;
-       padding: 10px 10px 10px 10px ;
-       margin: 10px 10px 10px 100px ;
-       text-shadow: 0 1px 1px hsla(0,0%,100%,.25),
+        vertical-align:          
+        color: #303030;
+        cursor: pointer;
+        font: bold 25px/65px sans-serif;
+        height: 80px;
+        padding: 10px 10px 10px 10px ;
+        margin: 10px 10px 10px 100px ;
+        text-shadow: 0 1px 1px hsla(0,0%,100%,.25),
                  0 -1px 1px hsla(0,0%,0%,.75);
-       width: 80px;
+        width: 80px;
    }
     button.depth:hover,
     button.depth:focus {
@@ -127,8 +127,6 @@
     var arrowStart;
     var arrowLength = 150;
     var spaceBarPressed = false;
-    var upPressed = false;
-    var downPressed = false;
     var arrowY =150;
     var arrowX;
     var gameScore = 0;
@@ -137,8 +135,6 @@
     var startGame;
     var bowLength = 75;
     var bowIncrement = 3;
-    var target = new Array();
-    var score = new Array();
     var circle_one = 50;
     var circle_two = 20;
     var circle_three = 10;
@@ -155,19 +151,18 @@
     var obstruction = new Image;
     var obstruction_1 = new Image;
     var obstruction_3 = new Image;
-    //var obstruction_2 = new Image;
-
-
-
-
-
-
+     var oppX = 480;
+     var dyopp = -8;
+     var oppY = 50;
+     var dyopp = -1;
+     var revX = 365;
+     var revY = 150;
+     var getCurrentTime; 
+     
      bullseyePic.src = "https://pbs.twimg.com/profile_images/598218580820299776/riyOfMzy.png";
      obstruction.src = "http://pre03.deviantart.net/536b/th/pre/i/2010/301/2/6/bullseye_by_himanuts-d31pc8v.png";
      obstruction_1.src = "http://www.clker.com/cliparts/b/m/0/m/n/D/brick-wall-jail.svg";
-    // obstruction_2.src = "http://img09.deviantart.net/80c6/i/2011/312/b/d/ice_sword_by_thecarloszayas-d4fjb49.png";
      obstruction_3.src = "http://www.panel2panel.com/wp-content/uploads/2014/03/animal-number-three-md.png";
-
 
 
 
@@ -225,6 +220,7 @@
 
          gameOver();
          drawScoreBoard();
+         drawOpposition();
          drawBow();
          drawBox();
          
@@ -256,7 +252,6 @@
             count = 0;
             arrowStart = 30;
             arrowStartY = 150;
-            //arrowNumbers--;
     	     }
 
           if(e.keyCode==39){         //keyCode right arrow is 39
@@ -278,11 +273,20 @@
       if(spaceBarPressed){  
        
         status = 0;  
-        shotArrow = setInterval(shootArrow,1500);
+        //shotArrow = setInterval(shootArrow,1500);
+        requestAnimationFrame(shootArrow);
+        getCurrentTime = Date.now()/1000;
+
        }     
       if(arrowY<100||arrowY>360){
         bowIncrement = -bowIncrement;
        }
+
+       oppY+=dyopp;
+      if(oppY>canvas.height-30||oppY<30){
+         dyopp = -dyopp;
+       }
+
        
     }
   
@@ -295,7 +299,6 @@
            ctx.lineTo(arrowX+arrowStart,arrowYe+arrowStartY);
            ctx.stroke();
            ctx.closePath();
-         // ]leadingPointX = arrowStart+arrowLength;
           leadingPointY = arrowStartY;          
          
           
@@ -306,13 +309,14 @@
            arrowX = Math.round(arrowLength*Math.cos(arrowAngle));
            arrowYe = Math.round(arrowLength*Math.sin(arrowAngle));
            arrowStart = arrowStart + arrowX;
-           arrowStartY = arrowStartY + arrowYe;
+           arrowStartY = arrowStartY + arrowYe;//-9.8*((Date.now()/1000)-getCurrentTime)*((Date.now()/1000)-getCurrentTime);
            if(arrowStart>405&&arrowStart<555){
           var testerX = Math.round(480*Math.cos(arrowAngle));
           var testerY = y*Math.sin(arrowAngle);
-          console.log(arrowStart+"  this is the coordinates");
+
             if(arrowStart>=testerX||arrowStartY>=testerY){
             targetHitting();
+           // oppositionColliosion();
           }
         }
           drawArrow();   
@@ -414,6 +418,30 @@
 
       }
 
+      function drawOpposition(){
+
+           statObstruction.beginPath();
+           statObstruction.drawImage(obstruction_1,oppX,oppY,70,60);
+           statObstruction.shadowBlur = 0;
+           statObstruction.stroke(); 
+           statObstruction.closePath();
+           
+           statObstruction.beginPath();
+           statObstruction.drawImage(obstruction_3,revX,revY,60,50);
+           statObstruction.shadowBlur = 0;
+           statObstruction.stroke(); 
+           statObstruction.closePath();
+
+
+
+        }
+         
+
+
+
+        
+      
+
 
           function targetHitting(){
            var circleX = arrowStart; var circleY = arrowStartY;
@@ -445,7 +473,7 @@
          
 
         function gameOver(){
-          if(gameCount>=5){
+          if(gameCount>=6){
           clearInterval(startGame);
           alert("gameOver!! You scored "+ gameScore + " points");
           }
